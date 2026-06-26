@@ -9,7 +9,7 @@ app = FastAPI(title="Alfred Dev")
 
 class ChatRequest(BaseModel):
     message: str
-    display_code: str = "XM-0001"
+    display_code: str = "XP-0001"
 
 
 @app.get("/health")
