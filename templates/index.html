@@ -5,31 +5,41 @@
   <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-  <main class="container">
-    <section class="hero">
+  <main class="layout">
+    <aside class="sidebar">
       <h1>Alfred</h1>
-      <p>Carlyle's executive health intelligence assistant.</p>
-    </section>
+      <p>Executive health intelligence</p>
 
-    <section class="card">
-      <label>Search Client</label>
-      <input id="client_search" placeholder="Type a client name or XP code..." oninput="searchClients()" />
+      <div class="dashboard">
+        <h3>Today</h3>
+        <div class="metric red">2 need attention</div>
+        <div class="metric amber">5 need review</div>
+        <div class="metric green">23 progressing well</div>
+      </div>
+
+      <label>Search client</label>
+      <input id="client_search" placeholder="Type name or XP code..." oninput="searchClients()" />
       <input id="display_code" type="hidden" value="XP-0001" />
 
-      <div id="selected_client" class="muted">Selected client: XP-0001</div>
+      <div id="selected_client" class="muted">No client selected</div>
       <div id="search_results"></div>
-      <div id="client_profile"></div>
-    </section>
+    </aside>
 
-    <section class="card">
-      <label>Ask Alfred</label>
-      <textarea id="message" rows="5">Summarise this client for Carlyle</textarea>
-      <button onclick="askAlfred()">Ask Alfred</button>
-    </section>
+    <section class="main">
+      <div id="client_profile" class="empty-state">
+        Select a client to begin.
+      </div>
 
-    <section>
-      <h3>Response</h3>
-      <pre id="response"></pre>
+      <section class="chat-card">
+        <label>Ask Alfred</label>
+        <textarea id="message" rows="4">Summarise this client for Carlyle</textarea>
+        <button onclick="askAlfred()">Ask Alfred</button>
+      </section>
+
+      <section class="answer-card">
+        <h3>Response</h3>
+        <div id="response" class="response-empty">Alfred's answer will appear here.</div>
+      </section>
     </section>
   </main>
 

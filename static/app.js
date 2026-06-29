@@ -1,3 +1,13 @@
+function renderMarkdown(text) {
+  return text
+    .replace(/^### (.*$)/gim, "<h3>$1</h3>")
+    .replace(/^## (.*$)/gim, "<h2>$1</h2>")
+    .replace(/^# (.*$)/gim, "<h1>$1</h1>")
+    .replace(/\*\*(.*?)\*\*/gim, "<strong>$1</strong>")
+    .replace(/\n- (.*)/gim, "<li>$1</li>")
+    .replace(/\n/g, "<br>");
+}
+
 async function searchClients() {
   const q = document.getElementById("client_search").value;
   const box = document.getElementById("search_results");
@@ -20,7 +30,7 @@ async function searchClients() {
     div.onclick = async () => {
       document.getElementById("display_code").value = client.display_code;
       document.getElementById("selected_client").textContent =
-        `Selected client: ${client.first_name} ${client.last_name} (${client.display_code})`;
+        `${client.first_name} ${client.last_name} (${client.display_code})`;
 
       box.innerHTML = "";
       document.getElementById("client_search").value =
@@ -33,10 +43,9 @@ async function searchClients() {
   });
 }
 
-
 async function loadClientProfile(displayCode) {
   const profileBox = document.getElementById("client_profile");
-  profileBox.innerHTML = "Loading client profile...";
+  profileBox.innerHTML = `<div class="loading">Loading client profile...</div>`;
 
   try {
     const res = await fetch(`/client/${encodeURIComponent(displayCode)}`);
@@ -53,22 +62,10 @@ async function loadClientProfile(displayCode) {
         </div>
 
         <div class="profile-grid">
-          <div>
-            <div class="label-small">Programme</div>
-            <div>${client.programme || "Not set"}</div>
-          </div>
-          <div>
-            <div class="label-small">Enrolled</div>
-            <div>${client.enrolled_at || "Not set"}</div>
-          </div>
-          <div>
-            <div class="label-small">Occupation</div>
-            <div>${client.occupation || "Not set"}</div>
-          </div>
-          <div>
-            <div class="label-small">Email</div>
-            <div>${client.email || "Not set"}</div>
-          </div>
+          <div><span>Programme</span><strong>${client.programme || "Not set"}</strong></div>
+          <div><span>Enrolled</span><strong>${client.enrolled_at || "Not set"}</strong></div>
+          <div><span>Occupation</span><strong>${client.occupation || "Not set"}</strong></div>
+          <div><span>Email</span><strong>${client.email || "Not set"}</strong></div>
         </div>
       </div>
     `;
@@ -77,9 +74,9 @@ async function loadClientProfile(displayCode) {
   }
 }
 
-
 async function askAlfred() {
-  document.getElementById("response").textContent = "Thinking...";
+  const responseBox = document.getElementById("response");
+  responseBox.innerHTML = `<div class="loading">Alfred is thinking...</div>`;
 
   try {
     const res = await fetch("/chat", {
@@ -94,15 +91,13 @@ async function askAlfred() {
     const data = await res.json();
 
     if (!res.ok) {
-      document.getElementById("response").textContent =
-        "Error: " + JSON.stringify(data, null, 2);
+      responseBox.textContent = "Error: " + JSON.stringify(data, null, 2);
       return;
     }
 
-    document.getElementById("response").textContent =
-      data.answer || JSON.stringify(data, null, 2);
+    responseBox.innerHTML = renderMarkdown(data.answer || JSON.stringify(data, null, 2));
 
   } catch (err) {
-    document.getElementById("response").textContent = "Error: " + err.message;
+    responseBox.textContent = "Error: " + err.message;
   }
 }
