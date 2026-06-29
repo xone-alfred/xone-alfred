@@ -25,7 +25,7 @@ async function searchClients() {
   clients.forEach(client => {
     const div = document.createElement("div");
     div.className = "result";
-    div.textContent = `${client.first_name} ${client.last_name} — ${client.display_code}`;
+    div.textContent = `${client.first_name} ${client.last_name} - ${client.display_code}`;
 
     div.onclick = async () => {
       document.getElementById("display_code").value = client.display_code;
@@ -79,7 +79,7 @@ async function askAlfred() {
 
   responseBox.innerHTML = `
     <div class="thinking">
-      <strong>🧠 Alfred is reviewing this client...</strong>
+      <strong>Alfred is reviewing this client...</strong>
       <div>✓ Bloodwork</div>
       <div>✓ Weekly check-ins</div>
       <div>✓ Coaching notes</div>
@@ -106,58 +106,38 @@ async function askAlfred() {
     }
 
     responseBox.innerHTML = renderMarkdown(data.answer || JSON.stringify(data, null, 2));
-
-  } catch (err) {
-    responseBox.textContent = "Error: " + err.message;
-  }
-}
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      responseBox.textContent = "Error: " + JSON.stringify(data, null, 2);
-      return;
-    }
-
-    responseBox.innerHTML = renderMarkdown(data.answer || JSON.stringify(data, null, 2));
-
   } catch (err) {
     responseBox.textContent = "Error: " + err.message;
   }
 }
 
 async function loadDashboard() {
+  const res = await fetch("/dashboard");
+  const data = await res.json();
 
-    const res = await fetch("/dashboard");
-    const data = await res.json();
+  document.getElementById("dashboard").innerHTML = `
+    <h3>Today's Overview</h3>
 
-    document.getElementById("dashboard").innerHTML = `
+    <div class="metric red">
+      ${data.attention.length} need attention
+    </div>
 
-        <h3>Today's Overview</h3>
+    <div class="metric amber">
+      ${data.review.length} need review
+    </div>
 
-        <div class="metric red">
-            🔴 ${data.attention.length} need attention
-        </div>
+    <div class="metric green">
+      ${data.good.length} progressing well
+    </div>
 
-        <div class="metric amber">
-            🟠 ${data.review.length} need review
-        </div>
+    <hr style="margin:20px 0">
 
-        <div class="metric green">
-            🟢 ${data.good.length} progressing well
-        </div>
+    <strong>Morning Brief</strong>
 
-        <hr style="margin:20px 0">
-
-        <strong>Morning Brief</strong>
-
-        <p class="muted">
-        Alfred reviewed every client overnight.
-        </p>
-
-    `;
-}
-
+    <p class="muted">
+      Alfred reviewed every client overnight.
+    </p>
+  `;
 }
 
 loadDashboard();
