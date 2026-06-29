@@ -10,11 +10,13 @@
       <h1>Alfred</h1>
       <p>Executive health intelligence</p>
 
-      <div class="dashboard">
-        <h3>Today</h3>
-        <div class="metric red">2 need attention</div>
-        <div class="metric amber">5 need review</div>
-        <div class="metric green">23 progressing well</div>
+      <div class="briefing">
+        <h2>Good afternoon Carlyle 👋</h2>
+        <p>I reviewed your clients overnight.</p>
+      </div>
+
+      <div id="dashboard">
+        Loading dashboard...
       </div>
 
       <label>Search client</label>
@@ -31,7 +33,7 @@
       </div>
 
       <section class="chat-card">
-        <label>Ask Alfred</label>
+        <label>Ask anything about this client</label>
         <textarea id="message" rows="4">Summarise this client for Carlyle</textarea>
         <button onclick="askAlfred()">Ask Alfred</button>
       </section>

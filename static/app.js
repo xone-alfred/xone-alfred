@@ -76,7 +76,17 @@ async function loadClientProfile(displayCode) {
 
 async function askAlfred() {
   const responseBox = document.getElementById("response");
-  responseBox.innerHTML = `<div class="loading">Alfred is thinking...</div>`;
+
+  responseBox.innerHTML = `
+    <div class="thinking">
+      <strong>🧠 Alfred is reviewing this client...</strong>
+      <div>✓ Bloodwork</div>
+      <div>✓ Weekly check-ins</div>
+      <div>✓ Coaching notes</div>
+      <div>✓ Wearables</div>
+      <div class="muted">Generating recommendation...</div>
+    </div>
+  `;
 
   try {
     const res = await fetch("/chat", {
@@ -101,3 +111,53 @@ async function askAlfred() {
     responseBox.textContent = "Error: " + err.message;
   }
 }
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      responseBox.textContent = "Error: " + JSON.stringify(data, null, 2);
+      return;
+    }
+
+    responseBox.innerHTML = renderMarkdown(data.answer || JSON.stringify(data, null, 2));
+
+  } catch (err) {
+    responseBox.textContent = "Error: " + err.message;
+  }
+}
+
+async function loadDashboard() {
+
+    const res = await fetch("/dashboard");
+    const data = await res.json();
+
+    document.getElementById("dashboard").innerHTML = `
+
+        <h3>Today's Overview</h3>
+
+        <div class="metric red">
+            🔴 ${data.attention.length} need attention
+        </div>
+
+        <div class="metric amber">
+            🟠 ${data.review.length} need review
+        </div>
+
+        <div class="metric green">
+            🟢 ${data.good.length} progressing well
+        </div>
+
+        <hr style="margin:20px 0">
+
+        <strong>Morning Brief</strong>
+
+        <p class="muted">
+        Alfred reviewed every client overnight.
+        </p>
+
+    `;
+}
+
+}
+
+loadDashboard();

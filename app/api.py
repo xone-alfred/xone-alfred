@@ -7,6 +7,7 @@ from tools.client_summary import get_client_summary
 from tools.search_clients import search_clients
 from services.llm_service import ask_llm
 from tools.get_client_profile import get_client_profile
+from tools.dashboard import get_dashboard
 
 app = FastAPI(title="Alfred Dev")
 
@@ -52,3 +53,7 @@ def chat(request: ChatRequest):
         "answer": response,
         "client": request.display_code,
     }
+    
+@app.get("/dashboard")
+def dashboard():
+    return get_dashboard()
