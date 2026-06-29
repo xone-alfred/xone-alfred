@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Alfred</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <main class="container">
+    <section class="hero">
+      <h1>Alfred</h1>
+      <p>Carlyle's executive health intelligence assistant.</p>
+    </section>
+
+    <section class="card">
+      <label>Search Client</label>
+      <input id="client_search" placeholder="Type a client name or XP code..." oninput="searchClients()" />
+      <input id="display_code" type="hidden" value="XP-0001" />
+
+      <div id="selected_client" class="muted">Selected client: XP-0001</div>
+      <div id="search_results"></div>
+      <div id="client_profile"></div>
+    </section>
+
+    <section class="card">
+      <label>Ask Alfred</label>
+      <textarea id="message" rows="5">Summarise this client for Carlyle</textarea>
+      <button onclick="askAlfred()">Ask Alfred</button>
+    </section>
+
+    <section>
+      <h3>Response</h3>
+      <pre id="response"></pre>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

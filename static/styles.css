@@ -1,0 +1,82 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #ffffff;
+  color: #111;
+  margin: 0;
+}
+
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 24px;
+}
+
+.hero {
+  margin-bottom: 28px;
+}
+
+h1 {
+  font-size: 42px;
+  margin-bottom: 8px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+button {
+  padding: 12px 22px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.card {
+  margin: 24px 0;
+}
+
+.result {
+  padding: 12px;
+  border: 1px solid #ddd;
+  margin: 6px 0;
+  cursor: pointer;
+  background: #f7f7f7;
+}
+
+.result:hover {
+  background: #eeeeee;
+}
+
+.muted {
+  color: #666;
+  font-size: 14px;
+  margin: 8px 0;
+}
+
+.profile {
+  border: 1px solid #ddd;
+  padding: 16px;
+  margin: 16px 0;
+  background: #fafafa;
+}
+
+.profile-json {
+  background: #fff;
+  margin-top: 12px;
+}
+
+pre {
+  white-space: pre-wrap;
+  background: #f4f4f4;
+  padding: 20px;
+}
