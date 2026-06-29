@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from tools.client_summary import get_client_summary
 from tools.search_clients import search_clients
 from services.llm_service import ask_llm
+from tools.get_client_profile import get_client_profile
 
 app = FastAPI(title="Alfred Dev")
 
@@ -29,7 +30,7 @@ def client_search(q: str):
 
 @app.get("/client/{display_code}")
 def client_profile(display_code: str):
-    return get_client_summary(display_code)
+    return get_client_profile(display_code)
 
 
 @app.get("/", response_class=HTMLResponse)
