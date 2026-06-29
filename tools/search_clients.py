@@ -1,3 +1,5 @@
+from services.supabase_service import get_supabase
+
 def search_clients(search: str):
     supabase = get_supabase()
 
