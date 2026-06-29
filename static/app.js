@@ -40,12 +40,36 @@ async function loadClientProfile(displayCode) {
 
   try {
     const res = await fetch(`/client/${encodeURIComponent(displayCode)}`);
-    const data = await res.json();
+    const client = await res.json();
 
     profileBox.innerHTML = `
       <div class="profile">
-        <strong>Client Profile</strong>
-        <pre class="profile-json">${JSON.stringify(data, null, 2)}</pre>
+        <div class="profile-header">
+          <div>
+            <h2>${client.name}</h2>
+            <div class="muted">${client.display_code}</div>
+          </div>
+          <div class="status-pill">${client.status}</div>
+        </div>
+
+        <div class="profile-grid">
+          <div>
+            <div class="label-small">Programme</div>
+            <div>${client.programme || "Not set"}</div>
+          </div>
+          <div>
+            <div class="label-small">Enrolled</div>
+            <div>${client.enrolled_at || "Not set"}</div>
+          </div>
+          <div>
+            <div class="label-small">Occupation</div>
+            <div>${client.occupation || "Not set"}</div>
+          </div>
+          <div>
+            <div class="label-small">Email</div>
+            <div>${client.email || "Not set"}</div>
+          </div>
+        </div>
       </div>
     `;
   } catch (err) {

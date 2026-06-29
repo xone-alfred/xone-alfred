@@ -80,3 +80,39 @@ pre {
   background: #f4f4f4;
   padding: 20px;
 }
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.profile-header h2 {
+  margin: 0 0 4px 0;
+  font-size: 24px;
+}
+
+.status-pill {
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  font-size: 13px;
+  text-transform: uppercase;
+  background: #fff;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.label-small {
+  color: #666;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
