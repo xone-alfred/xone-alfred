@@ -24,6 +24,11 @@ def client_search(q: str):
     return search_clients(q)
 
 
+@app.get("/client/{display_code}")
+def client_profile(display_code: str):
+    return get_client_summary(display_code)
+
+
 @app.get("/", response_class=HTMLResponse)
 def home():
     return """
@@ -39,6 +44,7 @@ def home():
     .result { padding: 10px; border: 1px solid #ddd; margin: 5px 0; cursor: pointer; }
     .result:hover { background: #f2f2f2; }
     .muted { color: #666; font-size: 14px; }
+    .profile { border: 1px solid #ddd; padding: 16px; margin: 16px 0; background: #fafafa; }
   </style>
 </head>
 <body>
@@ -51,6 +57,7 @@ def home():
 
   <div id="selected_client" class="muted">Selected client: XP-0001</div>
   <div id="search_results"></div>
+  <div id="client_profile"></div>
 
   <label>Ask Alfred</label>
   <textarea id="message" rows="5">Summarise this client for Carlyle</textarea>
@@ -80,17 +87,39 @@ def home():
         div.className = "result";
         div.textContent = `${client.first_name} ${client.last_name} — ${client.display_code}`;
 
-        div.onclick = () => {
+        div.onclick = async () => {
           document.getElementById("display_code").value = client.display_code;
           document.getElementById("selected_client").textContent =
             `Selected client: ${client.first_name} ${client.last_name} (${client.display_code})`;
+
           box.innerHTML = "";
           document.getElementById("client_search").value =
             `${client.first_name} ${client.last_name}`;
+
+          await loadClientProfile(client.display_code);
         };
 
         box.appendChild(div);
       });
+    }
+
+    async function loadClientProfile(displayCode) {
+      const profileBox = document.getElementById("client_profile");
+      profileBox.innerHTML = "Loading client profile...";
+
+      try {
+        const res = await fetch(`/client/${encodeURIComponent(displayCode)}`);
+        const data = await res.json();
+
+        profileBox.innerHTML = `
+          <div class="profile">
+            <strong>Client Profile</strong>
+            <pre style="background:white; margin-top:12px;">${JSON.stringify(data, null, 2)}</pre>
+          </div>
+        `;
+      } catch (err) {
+        profileBox.innerHTML = "Could not load client profile: " + err.message;
+      }
     }
 
     async function askAlfred() {
